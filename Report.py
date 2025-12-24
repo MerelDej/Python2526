@@ -1,7 +1,3 @@
-<<<<<<< Updated upstream
-# naar csv en/of excel kunnen omzetten
-=======
-<<<<<<< HEAD
 import pandas as pd
 import sqlite3
 import os
@@ -82,7 +78,3 @@ def generate_filtered_report(file_type, project_id=None, user_id=None, status=No
     elif file_type.lower() == "excel":
         df.to_excel(f"{filename}.xlsx", index=False)
         print(f"Filtered report generated: {filename}.xlsx")
-=======
-# naar csv en/of excel kunnen omzetten
->>>>>>> 53ddd6252c0b6a99a6fe7395e4d67e03a756c475
->>>>>>> Stashed changes

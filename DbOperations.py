@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-# connect, fetch all, add, update, delete
-=======
 import sqlite3
 import os
 from Settings.Config import DB_PATH
@@ -109,4 +106,3 @@ def delete_project(id):
     cursor.execute("DELETE FROM projects WHERE id = ?", (id))
     conn.commit()
     conn.close()
->>>>>>> Stashed changes
