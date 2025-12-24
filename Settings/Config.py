@@ -1,0 +1,1 @@
+DB_PATH = "C:\\python\\ToDoLijst\\Database\\ToDoListDatabase.db"
