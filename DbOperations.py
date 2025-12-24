@@ -1,6 +1,22 @@
 import sqlite3
 import os
-from Settings.Config import DB_PATH
+from Database.Config import DB_PATH
+
+
+def print_table(headers, rows):
+    # bereken max grootte voor elke kolom
+    col_widths = []
+    for i, header in enumerate(headers):
+        max_data_width = max((len(str(row[i])) for row in rows), default=0)
+        col_widths.append(max(len(header), max_data_width))
+    # dynamische format string
+    fmt = "  ".join(f"{{:<{w}}}" for w in col_widths)
+    # print header
+    print(fmt.format(*headers))
+    print("-" * (sum(col_widths) + 2 * (len(col_widths)-1)))
+    # print rows
+    for row in rows:
+        print(fmt.format(*row))
 
 def connect_db():
     if not os.path.exists(DB_PATH):
@@ -13,7 +29,8 @@ def fetch_all_users():
     cursor.execute("SELECT * FROM users")
     rows = cursor.fetchall()
     conn.close()
-    return rows
+    headers = ["id", "name", "email"]
+    print_table(headers, rows)
 
 def fetch_all_tasks():
     conn = connect_db()
@@ -21,7 +38,8 @@ def fetch_all_tasks():
     cursor.execute("SELECT * FROM tasks")
     rows = cursor.fetchall()
     conn.close()
-    return rows
+    headers = ["id", "project_id", "user_id", "title", "status", "due_date"]
+    print_table(headers, rows)
 
 def fetch_all_projects():
     conn = connect_db()
@@ -29,7 +47,8 @@ def fetch_all_projects():
     cursor.execute("SELECT * FROM projects")
     rows = cursor.fetchall()
     conn.close()
-    return rows
+    headers = ["id", "user_id", "name"]
+    print_table(headers, rows)
 
 def add_user(name, email):
     conn = connect_db()
