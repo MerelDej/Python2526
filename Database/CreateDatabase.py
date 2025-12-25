@@ -29,7 +29,9 @@ def create_database():
         project_id INTEGER NOT NULL,
         user_id INTEGER NOT NULL,
         title TEXT NOT NULL,
-        status TEXT DEFAULT 'pending',
+        status TEXT NOT NULL
+            CHECK (status IN ('pending', 'completed'))
+            DEFAULT 'pending',
         due_date TEXT,
         FOREIGN KEY (project_id) REFERENCES projects(id)
             ON DELETE CASCADE,
@@ -37,8 +39,6 @@ def create_database():
             ON DELETE CASCADE
     );
     """)
-    
-    # TO DO: Maak van status een Enum met als opties "pending" of "completed"
 
     cursor.execute("INSERT OR IGNORE INTO users (id, name, email) VALUES (1, 'Magda', 'magda@gmail.com')")
     cursor.execute("INSERT OR IGNORE INTO users (id, name, email) VALUES (2, 'Germain', 'Germain@gmail.com')")

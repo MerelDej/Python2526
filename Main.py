@@ -1,6 +1,7 @@
 #from Commands import parse_args, execute_command
 from DbOperations import fetch_all_users, fetch_all_tasks, fetch_all_projects, add_user, add_task, add_project, update_user, update_task, update_project, delete_user, delete_task, delete_project
 from Report import generate_full_report, generate_filtered_report
+from Enums import TaskStatus
 import sys
 import os
 
@@ -46,9 +47,11 @@ def command_five():
     if not title:
         print("Title cannot be empty.")
         return
-    status = safe_input("Enter an status: ").strip()
-    if not status:
-        print("Status cannot be empty.")
+    status_input = safe_input("Enter status (pending/completed): ").strip().lower()
+    try:
+        status = TaskStatus(status_input).value
+    except ValueError:
+        print("Invalid status. Use 'pending' or 'completed'.")
         return
     due_date = safe_input("Enter a due_date: ").strip()
     if not due_date:
@@ -100,9 +103,15 @@ def command_eight():
     new_title = safe_input("Enter a new title or press Enter to not change it: ").strip()
     if new_title == "":
         new_title=None
-    new_status = safe_input("Enter a new status or press Enter to not change it: ").strip()
-    if new_status == "":
-        new_status=None
+    new_status_input = safe_input("Enter a new status (pending/completed) or press Enter to skip: ").strip().lower()
+    if new_status_input == "":
+        new_status = None
+    else:
+        try:
+            new_status = TaskStatus(new_status_input).value
+        except ValueError:
+            print("Invalid status.")
+            return
     new_due_date = safe_input("Enter a new due date or press Enter to not change it: ").strip()
     if new_due_date == "":
         new_due_date=None
