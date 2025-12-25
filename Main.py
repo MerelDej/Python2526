@@ -1,7 +1,8 @@
 #from Commands import parse_args, execute_command
 from DbOperations import fetch_all_users, fetch_all_tasks, fetch_all_projects, add_user, add_task, add_project, update_user, update_task, update_project, delete_user, delete_task, delete_project
 from Report import generate_full_report, generate_filtered_report
-from Enums import TaskStatus
+from Enums import TaskStatus, ReportFileType
+from Quit import QuitToMenu, safe_input
 import sys
 import os
 
@@ -159,16 +160,22 @@ def command_twelve():
 
 def command_thirteen():
     print("Generating full report...\nOr press q to quit\n")
-    file_type = safe_input("Enter file type (csv/excel): ").strip().lower()
-    if file_type not in ("csv", "excel"):
+    options = "/".join(t.value for t in ReportFileType)
+    file_type_input = safe_input(f"Enter file type ({options}): ").strip().lower()
+    try:
+        file_type = ReportFileType(file_type_input).value
+    except ValueError:
         print("Invalid file type. Choose 'csv' or 'excel'.")
         return
     generate_full_report(file_type)
 
 def command_fourteen():
     print("Generating filtered report...\nOr press q to quit\n")
-    file_type = safe_input("Enter file type (csv/excel): ").strip().lower()
-    if file_type not in ("csv", "excel"):
+    options = "/".join(t.value for t in ReportFileType)
+    file_type_input = safe_input(f"Enter file type ({options}): ").strip().lower()
+    try:
+        file_type = ReportFileType(file_type_input).value
+    except ValueError:
         print("Invalid file type. Choose 'csv' or 'excel'.")
         return
     project_id = safe_input("Enter project ID or press Enter to skip: ").strip()
@@ -208,17 +215,6 @@ def show_menu():
     print("\n=== To Do List Command Menu ===")
     for key, (description, _) in MENU_OPTIONS.items():
         print(f"{key}. {description}")
-
-class QuitToMenu(Exception):
-    """Raised when user wants to quit current command"""
-    pass
-
-def safe_input(q):
-    value = input(q).strip()
-    if value.lower() == "q":
-        print("\nCancelled. Returning to menu...\n")
-        raise QuitToMenu
-    return value
 
 def main():
     while True:
