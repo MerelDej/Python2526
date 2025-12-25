@@ -20,12 +20,12 @@ def command_three():
     os.system("echo All projects fetched")
 
 def command_four():
-    print("Adding a user...\n")
-    name = input("Enter a name: ").strip()
+    print("Adding a user...\nOr press q to quit\n")
+    name = safe_input("Enter a name: ").strip()
     if not name:
         print("Name cannot be empty.")
         return
-    email = input("Enter an email: ").strip()
+    email = safe_input("Enter an email: ").strip()
     if not email:
         print("Email cannot be empty.")
         return
@@ -33,24 +33,24 @@ def command_four():
     os.system("echo User added")
 
 def command_five():
-    print("Adding a task...\n")
-    project_id = input("Enter a project_id: ").strip()
+    print("Adding a task...\nOr press q to quit\n")
+    project_id = safe_input("Enter a project_id: ").strip()
     if not project_id:
         print("Project id cannot be empty.")
         return
-    user_id = input("Enter a user_id: ").strip()
+    user_id = safe_input("Enter a user_id: ").strip()
     if not user_id:
         print("User id cannot be empty.")
         return
-    title = input("Enter a title: ").strip()
+    title = safe_input("Enter a title: ").strip()
     if not title:
         print("Title cannot be empty.")
         return
-    status = input("Enter an status: ").strip()
+    status = safe_input("Enter an status: ").strip()
     if not status:
         print("Status cannot be empty.")
         return
-    due_date = input("Enter a due_date: ").strip()
+    due_date = safe_input("Enter a due_date: ").strip()
     if not due_date:
         print("Due date cannot be empty.")
         return
@@ -58,12 +58,12 @@ def command_five():
     os.system("echo Task added")
 
 def command_six():
-    print("Adding a project...\n")
-    user_id = input("Enter a user_id: ").strip()
+    print("Adding a project...\nOr press q to quit\n")
+    user_id = safe_input("Enter a user_id: ").strip()
     if not user_id:
         print("User id cannot be empty.")
         return
-    name = input("Enter a name: ").strip()
+    name = safe_input("Enter a name: ").strip()
     if not name:
         print("Name cannot be empty.")
         return
@@ -71,65 +71,59 @@ def command_six():
     os.system("echo Project added")
 
 def command_seven():
-    print("Updating a user...\n")
-    id = input("Enter the id of the user: ").strip()
+    print("Updating a user...\nOr press q to quit\n")
+    id = safe_input("Enter the id of the user: ").strip()
     if not id:
         print("Id cannot be empty.")
         return
-    new_name = input("Enter a new name or press Enter to not change it: ").strip()
-    if not new_name:
+    new_name = safe_input("Enter a new name or press Enter to not change it: ").strip()
+    if new_name == "":
         new_name=None
-    new_email = input("Enter a new email or press Enter to not change it: ").strip()
-    if not new_email:
+    new_email = safe_input("Enter a new email or press Enter to not change it: ").strip()
+    if new_email == "":
         new_email=None
-    update_user(new_name, new_email)
+    update_user(id, new_name, new_email)
     os.system("echo User updated")
 
 def command_eight():
-    print("Updating a task...\n")
-    id = input("Enter the id of the task: ").strip()
+    print("Updating a task...\nOr press q to quit\n")
+    id = safe_input("Enter the id of the task: ").strip()
     if not id:
         print("Task id cannot be empty.")
         return
-    new_project = input("Enter a new project id or press Enter to not change it: ").strip()
-    if not new_project:
+    new_project = safe_input("Enter a new project id or press Enter to not change it: ").strip()
+    if new_project == "":
         new_project=None
-        return new_project
-    new_user = input("Enter a new user id or press Enter to not change it: ").strip()
-    if not new_user:
-        new_user_id=None
-        return new_user_id
-    new_title = input("Enter a new title or press Enter to not change it: ").strip()
-    if not new_title:
+    new_user = safe_input("Enter a new user id or press Enter to not change it: ").strip()
+    if new_user == "":
+        new_user=None
+    new_title = safe_input("Enter a new title or press Enter to not change it: ").strip()
+    if new_title == "":
         new_title=None
-        return new_title
-    new_status = input("Enter a new status or press Enter to not change it: ").strip()
-    if not new_status:
+    new_status = safe_input("Enter a new status or press Enter to not change it: ").strip()
+    if new_status == "":
         new_status=None
-        return new_status
-    new_due_date = input("Enter a new due date or press Enter to not change it: ").strip()
-    if not new_due_date:
+    new_due_date = safe_input("Enter a new due date or press Enter to not change it: ").strip()
+    if new_due_date == "":
         new_due_date=None
-        return new_due_date
     update_task(id, new_project, new_user, new_title, new_status, new_due_date)
     os.system("echo Task updated")
 
 def command_nine():
-    print("Updating a project...\n")
-    project_id = input("Enter the id of the project: ").strip()
-    if not project_id:
+    print("Updating a project...\nOr press q to quit\n")
+    id = safe_input("Enter the id of the project: ").strip()
+    if not id:
         print("Project id cannot be empty.")
         return
-    new_name = input("Enter a name or press Enter to not change it: ").strip()
-    if not new_name:
+    new_name = safe_input("Enter a name or press Enter to not change it: ").strip()
+    if new_name == "":
         new_name=None
-        return new_name
-    update_project(project_id, new_name)
+    update_project(id, new_name)
     os.system("echo Project updated")
 
 def command_ten():
-    print("Deleting a user...\n")
-    id = input("Enter the id of the user you want to delete: ").strip()
+    print("Deleting a user...\nOr press q to quit\n")
+    id = safe_input("Enter the id of the user you want to delete: ").strip()
     if not id:
         print("Id cannot be empty.")
         return
@@ -137,8 +131,8 @@ def command_ten():
     os.system("echo User deleted")
 
 def command_eleven():
-    print("Deleting a task...\n")
-    id = input("Enter the id of the task you want to delete: ").strip()
+    print("Deleting a task...\nOr press q to quit\n")
+    id = safe_input("Enter the id of the task you want to delete: ").strip()
     if not id:
         print("Id cannot be empty.")
         return
@@ -146,13 +140,38 @@ def command_eleven():
     os.system("echo Task deleted")
 
 def command_twelve():
-    print("Deleting a project...\n")
-    id = input("Enter the id of the project you want to delete: ").strip()
+    print("Deleting a project...\nOr press q to quit\n")
+    id = safe_input("Enter the id of the project you want to delete: ").strip()
     if not id:
         print("Id cannot be empty.")
         return
     delete_project(id)
     os.system("echo Project deleted")
+
+def command_thirteen():
+    print("Generating full report...\nOr press q to quit\n")
+    file_type = safe_input("Enter file type (csv/excel): ").strip().lower()
+    if file_type not in ("csv", "excel"):
+        print("Invalid file type. Choose 'csv' or 'excel'.")
+        return
+    generate_full_report(file_type)
+
+def command_fourteen():
+    print("Generating filtered report...\nOr press q to quit\n")
+    file_type = safe_input("Enter file type (csv/excel): ").strip().lower()
+    if file_type not in ("csv", "excel"):
+        print("Invalid file type. Choose 'csv' or 'excel'.")
+        return
+    project_id = safe_input("Enter project ID or press Enter to skip: ").strip()
+    if project_id == "":
+        project_id = None
+    user_id = safe_input("Enter user ID or press Enter to skip: ").strip()
+    if user_id == "":
+        user_id = None
+    status = safe_input("Enter task status or press Enter to skip: ").strip()
+    if status == "":
+        status = None
+    generate_filtered_report(file_type=file_type, project_id=project_id, user_id=user_id, status=status)
 
 def exit_program():
     print("Exiting program.")
@@ -171,6 +190,8 @@ MENU_OPTIONS = {
     "10": ("Delete user", command_ten),
     "11": ("Delete task", command_eleven),
     "12": ("Delete project", command_twelve),
+    "13": ("Generate full report", command_thirteen),
+    "14": ("Generate filtered report", command_fourteen),
     "0": ("Exit", exit_program),
 }
 
@@ -179,12 +200,29 @@ def show_menu():
     for key, (description, _) in MENU_OPTIONS.items():
         print(f"{key}. {description}")
 
+class QuitToMenu(Exception):
+    """Raised when user wants to quit current command"""
+    pass
+
+def safe_input(q):
+    value = input(q).strip()
+    if value.lower() == "q":
+        print("\nCancelled. Returning to menu...\n")
+        raise QuitToMenu
+    return value
+
 def main():
     while True:
         show_menu()
         choice = input("\nSelect an option: ").strip()
+        if choice.lower() == "q":
+            exit_program()
+
         if choice in MENU_OPTIONS:
-            MENU_OPTIONS[choice][1]()
+            try:
+                MENU_OPTIONS[choice][1]()
+            except QuitToMenu:
+                continue
         else:
             print("Invalid option. Please try again.")
 
