@@ -1,7 +1,7 @@
 import pandas as pd
 import sqlite3
 import os
-from Database.Config import DB_PATH
+from Database.Settings import DB_PATH
 from datetime import datetime
 
 now = datetime.now().strftime("%Y%m%d%H%M%S")

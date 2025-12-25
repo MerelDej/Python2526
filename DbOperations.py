@@ -1,6 +1,6 @@
 import sqlite3
 import os
-from Database.Config import DB_PATH
+from Database.Settings import DB_PATH
 
 
 def print_table(headers, rows):
