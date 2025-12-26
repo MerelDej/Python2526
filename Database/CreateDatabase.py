@@ -1,5 +1,5 @@
 import sqlite3
-from Database.Settings import DB_PATH
+from Settings import DB_PATH
 
 def create_database():
     connection = sqlite3.connect(DB_PATH)

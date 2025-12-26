@@ -1,1 +1,1 @@
-DB_PATH = "C:\\python\\ToDoLijst\\Database\\ToDoListDatabase.db"
+DB_PATH = ".\\Database\\ToDoListDatabase.db"
