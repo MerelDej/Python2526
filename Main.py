@@ -3,97 +3,148 @@ from Report import generate_full_report, generate_filtered_report
 from Enums import TaskStatus, ReportFileType
 from Quit import QuitToMenu, safe_input
 import sys
-import os
+
+def id_exists(fetch_function, id_value):
+    while True:
+        records = fetch_function()
+        return any(row[0] == id_value for row in records)
+
+def get_numeric_id(prompt):
+    while True:
+        value = safe_input(prompt).strip()
+        if not value:
+            print("Id cannot be empty.")
+            return None
+        if not value.isdigit():
+            print("Id must be a number.")
+            return None
+        return int(value)
 
 def command_one():
     print("Fetching all users...\n")
     fetch_all_users()
-    os.system("echo All users fetched")
+    print("All users fetched")
 
 def command_two():
     print("Fetching all tasks...\n")
     fetch_all_tasks()
-    os.system("echo All tasks fetched")
+    print("All tasks fetched")
 
 def command_three():
     print("Fetching all projects...\n")
     fetch_all_projects()
-    os.system("echo All projects fetched")
+    print("All projects fetched")
 
 def command_four():
     print("Adding a user...\nOr press q to quit\n")
-    name = safe_input("Enter a name: ").strip()
-    if not name:
-        print("Name cannot be empty.")
-        return
-    email = safe_input("Enter an email: ").strip()
-    if not email:
-        print("Email cannot be empty.")
-        return
+    while True:
+        name = safe_input("Enter a name: ").strip()
+        if not name:
+            print("Name cannot be empty.")
+            continue
+        break
+    while True:
+        email = safe_input("Enter an email: ").strip()
+        if not email:
+            print("Email cannot be empty.")
+            continue
+        elif "@" not in email or "." not in email:
+            print("Invalid email. Email must contain '@' and '.'.")
+            continue
+        break
     add_user(name, email)
-    os.system("echo User added")
+    print("User added")
 
 def command_five():
     print("Adding a task...\nOr press q to quit\n")
-    project_id = safe_input("Enter a project_id: ").strip()
-    if not project_id:
-        print("Project id cannot be empty.")
-        return
-    user_id = safe_input("Enter a user_id: ").strip()
-    if not user_id:
-        print("User id cannot be empty.")
-        return
-    title = safe_input("Enter a title: ").strip()
-    if not title:
-        print("Title cannot be empty.")
-        return
-    status_input = safe_input("Enter status (pending/completed): ").strip().lower()
-    try:
-        status = TaskStatus(status_input).value
-    except ValueError:
-        print("Invalid status. Use 'pending' or 'completed'.")
-        return
-    due_date = safe_input("Enter a due_date: ").strip()
-    if not due_date:
-        print("Due date cannot be empty.")
-        return
+    while True:
+        project_id = safe_input("Enter a project_id: ").strip()
+        if not project_id:
+            print("Project id cannot be empty.")
+            continue
+        break
+    while True:
+        user_id = safe_input("Enter a user_id: ").strip()
+        if not user_id:
+            print("User id cannot be empty.")
+            continue
+        break
+    while True:
+        title = safe_input("Enter a title: ").strip()
+        if not title:
+            print("Title cannot be empty.")
+            continue
+        break
+    while True:
+        status_input = safe_input("Enter status (pending/completed): ").strip().lower()
+        try:
+            status = TaskStatus(status_input).value
+        except ValueError:
+            print("Invalid status. Use 'pending' or 'completed'.")
+            continue
+        break
+    while True:
+        due_date = safe_input("Enter a due_date: ").strip()
+        if not due_date:
+            print("Due date cannot be empty.")
+            continue
+        break
     add_task(project_id, user_id, title, status, due_date)
-    os.system("echo Task added")
+    print("Task added")
 
 def command_six():
     print("Adding a project...\nOr press q to quit\n")
-    user_id = safe_input("Enter a user_id: ").strip()
-    if not user_id:
-        print("User id cannot be empty.")
-        return
-    name = safe_input("Enter a name: ").strip()
-    if not name:
-        print("Name cannot be empty.")
-        return
+    while True:
+        user_id = get_numeric_id("Enter a user_id: ").strip()
+        if not user_id:
+            print("User id cannot be empty.")
+            continue
+        break
+    while True:
+        name = safe_input("Enter a name: ").strip()
+        if not name:
+            print("Name cannot be empty.")
+            continue
+        break
     add_project(user_id, name)
-    os.system("echo Project added")
+    print("Project added")
 
 def command_seven():
     print("Updating a user...\nOr press q to quit\n")
-    id = safe_input("Enter the id of the user: ").strip()
-    if not id:
-        print("Id cannot be empty.")
-        return
+    while True:
+        id = get_numeric_id("Enter the id of the user: ").strip()
+        if id is None:
+            print("Id cannot be empty.")
+            continue
+        if not id_exists(fetch_all_users, id):
+            print("Error: User with that ID does not exist.")
+            continue
+        break
     new_name = safe_input("Enter a new name or press Enter to not change it: ").strip()
     if new_name == "":
         new_name=None
-    new_email = safe_input("Enter a new email or press Enter to not change it: ").strip()
-    if new_email == "":
-        new_email=None
+    while True:
+        new_email = safe_input("Enter a new email or press Enter to not change it: ").strip()
+        if new_email == "":
+            new_email=None
+        elif "@" not in new_email or "." not in new_email:
+            print("Invalid email. Email must contain '@' and '.'.")
+            continue
+        break
     update_user(id, new_name, new_email)
-    os.system("echo User updated")
+    print("User updated")
 
 def command_eight():
     print("Updating a task...\nOr press q to quit\n")
-    id = safe_input("Enter the id of the task: ").strip()
-    if not id:
-        print("Task id cannot be empty.")
-        return
+    while True:
+        id = get_numeric_id("Enter the id of the task: ").strip()
+        if id is None:
+            print("Task id cannot be empty.")
+            continue
+        if not id_exists(fetch_all_tasks, id):
+            print("Error: Task with that ID does not exist.")
+            continue
+        break
     new_project = safe_input("Enter a new project id or press Enter to not change it: ").strip()
     if new_project == "":
         new_project=None
@@ -103,84 +154,110 @@ def command_eight():
     new_title = safe_input("Enter a new title or press Enter to not change it: ").strip()
     if new_title == "":
         new_title=None
-    new_status_input = safe_input("Enter a new status (pending/completed) or press Enter to skip: ").strip().lower()
-    if new_status_input == "":
-        new_status = None
-    else:
-        try:
-            new_status = TaskStatus(new_status_input).value
-        except ValueError:
-            print("Invalid status.")
-            return
+    while True:
+        new_status_input = safe_input("Enter a new status (pending/completed) or press Enter to skip: ").strip().lower()
+        if new_status_input == "":
+            new_status = None
+        else:
+            try:
+                new_status = TaskStatus(new_status_input).value
+            except ValueError:
+                print("Invalid status.")
+                continue
+        break
     new_due_date = safe_input("Enter a new due date or press Enter to not change it: ").strip()
     if new_due_date == "":
         new_due_date=None
     update_task(id, new_project, new_user, new_title, new_status, new_due_date)
-    os.system("echo Task updated")
+    print("Task updated")
 
 def command_nine():
     print("Updating a project...\nOr press q to quit\n")
-    id = safe_input("Enter the id of the project: ").strip()
-    if not id:
-        print("Project id cannot be empty.")
-        return
+    while True:
+        id = get_numeric_id("Enter the id of the project: ").strip()
+        if id is None:
+            print("Project id cannot be empty.")
+            continue
+        if not id_exists(fetch_all_projects, id):
+            print("Error: Project with that ID does not exist.")
+            continue
+        break
     new_name = safe_input("Enter a name or press Enter to not change it: ").strip()
     if new_name == "":
         new_name=None
     update_project(id, new_name)
-    os.system("echo Project updated")
+    print("Project updated")
 
 def command_ten():
     print("Deleting a user...\nOr press q to quit\n")
-    id = safe_input("Enter the id of the user you want to delete: ").strip()
-    if not id:
-        print("Id cannot be empty.")
-        return
+    while True:
+        id = get_numeric_id("Enter the id of the user you want to delete: ").strip()
+        if id is None:
+            print("Id cannot be empty.")
+            continue
+        if not id_exists(fetch_all_users, id):
+            print("Error: User with that ID does not exist.")
+            continue
+        break
     delete_user(id)
-    os.system("echo User deleted")
+    print("User deleted")
 
 def command_eleven():
     print("Deleting a task...\nOr press q to quit\n")
-    id = safe_input("Enter the id of the task you want to delete: ").strip()
-    if not id:
-        print("Id cannot be empty.")
-        return
+    while True:
+        id = get_numeric_id("Enter the id of the task you want to delete: ").strip()
+        if id is None:
+            print("Id cannot be empty.")
+            continue
+        if not id_exists(fetch_all_tasks, id):
+            print("Error: Task with that ID does not exist.")
+            continue
+        break
     delete_task(id)
-    os.system("echo Task deleted")
+    print("Task deleted")
 
 def command_twelve():
     print("Deleting a project...\nOr press q to quit\n")
-    id = safe_input("Enter the id of the project you want to delete: ").strip()
-    if not id:
-        print("Id cannot be empty.")
-        return
+    while True:
+        id = get_numeric_id("Enter the id of the project you want to delete: ").strip()
+        if id is None:
+            print("Id cannot be empty.")
+            continue
+        if not id_exists(fetch_all_projects, id):
+            print("Error: Project with that ID does not exist.")
+            continue
+        break
     delete_project(id)
-    os.system("echo Project deleted")
+    print("Project deleted")
 
 def command_thirteen():
     print("Generating full report...\nOr press q to quit\n")
-    options = "/".join(t.value for t in ReportFileType)
-    file_type_input = safe_input(f"Enter file type ({options}): ").strip().lower()
-    try:
-        file_type = ReportFileType(file_type_input).value
-    except ValueError:
-        print("Invalid file type. Choose 'csv' or 'excel'.")
-        return
+    while True:
+        options = "/".join(t.value for t in ReportFileType)
+        file_type_input = safe_input(f"Enter file type ({options}): ").strip().lower()
+        try:
+            file_type = ReportFileType(file_type_input).value
+        except ValueError:
+            print("Invalid file type. Choose 'csv' or 'excel'.")
+            continue
+        break
     generate_full_report(file_type)
 
 def command_fourteen():
     print("Generating filtered report...\nOr press q to quit\n")
-    options = "/".join(t.value for t in ReportFileType)
-    file_type_input = safe_input(f"Enter file type ({options}): ").strip().lower()
-    try:
-        file_type = ReportFileType(file_type_input).value
-    except ValueError:
-        print("Invalid file type. Choose 'csv' or 'excel'.")
-        return
-    project_id = safe_input("Enter project ID or press Enter to skip: ").strip()
+    while True:
+        options = "/".join(t.value for t in ReportFileType)
+        file_type_input = safe_input(f"Enter file type ({options}): ").strip().lower()
+        try:
+            file_type = ReportFileType(file_type_input).value
+        except ValueError:
+            print("Invalid file type. Choose 'csv' or 'excel'.")
+            continue
+        break
+    project_id = get_numeric_id("Enter project ID or press Enter to skip: ").strip()
     if project_id == "":
         project_id = None
-    user_id = safe_input("Enter user ID or press Enter to skip: ").strip()
+    user_id = get_numeric_id("Enter user ID or press Enter to skip: ").strip()
     if user_id == "":
         user_id = None
     status = safe_input("Enter task status or press Enter to skip: ").strip()
@@ -221,7 +298,6 @@ def main():
         choice = input("\nSelect an option: ").strip()
         if choice.lower() == "q":
             exit_program()
-
         if choice in MENU_OPTIONS:
             try:
                 MENU_OPTIONS[choice][1]()
