@@ -51,11 +51,15 @@ def fetch_all_projects():
     print_table(headers, rows)
 
 def add_user(name, email):
-    conn = connect_db()
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO users (name, email) VALUES (?, ?)", (name, email))
-    conn.commit()
-    conn.close()
+    try:
+        conn = connect_db()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO users (name, email) VALUES (?, ?)", (name, email))
+        conn.commit()
+    except sqlite3.IntegrityError:
+        print("Error: Email is already in use, use another")
+    finally:
+        conn.close()
 
 def add_task(project_id, user_id, title, status, due_date):
     conn = connect_db()

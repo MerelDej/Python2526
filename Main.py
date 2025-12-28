@@ -51,6 +51,8 @@ def command_four():
         elif "@" not in email or "." not in email:
             print("Invalid email. Email must contain '@' and '.'.")
             continue
+        elif not add_user(name, email):
+            continue
         break
     add_user(name, email)
     print("User added")
