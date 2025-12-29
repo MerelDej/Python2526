@@ -41,7 +41,7 @@ def create_database():
     """)
 
     cursor.execute("INSERT OR IGNORE INTO users (id, name, email) VALUES (1, 'Magda', 'magda@gmail.com')")
-    cursor.execute("INSERT OR IGNORE INTO users (id, name, email) VALUES (2, 'Germain', 'Germain@gmail.com')")
+    cursor.execute("INSERT OR IGNORE INTO users (id, name, email) VALUES (2, 'Germain', 'germain@gmail.com')")
     cursor.execute("INSERT OR IGNORE INTO users (id, name, email) VALUES (3, 'Pieter', 'pieter@gmail.com')")
     cursor.execute("INSERT OR IGNORE INTO users (id, name, email) VALUES (4, 'Frank', 'frank@gmail.com')")
     cursor.execute("INSERT OR IGNORE INTO users (id, name, email) VALUES (5, 'Maria', 'maria@gmail.com')")
