@@ -76,11 +76,20 @@ def fetch_all_projects():
     headers = ["id", "user_id", "name"]
     print_table(headers, rows)
 
+def get_next_id(table_name):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT MAX(id) FROM {table_name}")
+    max_id = cursor.fetchone()[0]
+    conn.close()
+    return 1 if max_id is None else max_id + 1
+
 def add_user(name, email):
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO users (name, email) VALUES (?, ?)", (name, email))
+        next_id = get_next_id("users")
+        cursor.execute("INSERT INTO users (id, name, email) VALUES (?, ?, ?)", (next_id, name, email))
         conn.commit()
         return True
     except sqlite3.IntegrityError:
@@ -93,7 +102,8 @@ def add_task(project_id, user_id, title, status, due_date):
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO tasks (project_id, user_id, title, status, due_date) VALUES (?, ?, ?, ?, ?)", (project_id, user_id, title, status, due_date))
+        next_id = get_next_id("tasks")
+        cursor.execute("INSERT INTO tasks (id, project_id, user_id, title, status, due_date) VALUES (?, ?, ?, ?, ?, ?)", (next_id, project_id, user_id, title, status, due_date))
         conn.commit()
         return True
     except sqlite3.IntegrityError as e:
@@ -107,7 +117,8 @@ def add_project(user_id, name):
     try:
         conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO projects (user_id, name) VALUES (?, ?)", (user_id, name))
+        next_id = get_next_id("projects")
+        cursor.execute("INSERT INTO projects (id, user_id, name) VALUES (?, ?, ?)", (next_id, user_id, name))
         conn.commit()
         return True
     except sqlite3.IntegrityError as e:
@@ -174,20 +185,20 @@ def update_project(project_id, new_name=None):
 def delete_user(user_id):
     conn = connect_db()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM users WHERE id = ?", (user_id))
+    cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
     conn.commit()
     conn.close()
 
 def delete_task(task_id):
     conn = connect_db()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id))
+    cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
     conn.commit()
     conn.close()
 
 def delete_project(project_id):
     conn = connect_db()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM projects WHERE id = ?", (project_id))
+    cursor.execute("DELETE FROM projects WHERE id = ?", (project_id,))
     conn.commit()
     conn.close()

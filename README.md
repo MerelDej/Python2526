@@ -13,11 +13,8 @@ Het systeem ondersteunt volledige **CRUD-functionaliteit**, taakstatussen en het
 - **Gebruikersbeheer**
   - Gebruikers toevoegen, bekijken, aanpassen en verwijderen
 - **Projectbeheer**
-- **Gebruikersbeheer**
-    - Gebruikers toevoegen, bekijken, aanpassen en verwijderen
-- **Projectbeheer**
-    - Projecten koppelen aan gebruikers
-    - Projecten toevoegen, bekijken, aanpassen en verwijderen
+  - Projecten koppelen aan gebruikers
+  - Projecten toevoegen, bekijken, aanpassen en verwijderen
 - **Taakbeheer**
     - Taken koppelen aan gebruikers en projecten
     - Taakstatus bijhouden (`pending` / `completed`)
@@ -31,25 +28,16 @@ Het systeem ondersteunt volledige **CRUD-functionaliteit**, taakstatussen en het
     - Veilig annuleren (`q`) vanuit elk invoerveld
 
 ## Projectstructuur
-```
+```graphql
 .
-
 ├── Main.py # Startpunt van de CLI & menu
-
 ├── DbOperations.py # Database CRUD-operaties
-
 ├── Report.py # Rapportgeneratie (CSV / Excel)
-
 ├── Enums.py # Enums voor taakstatus en rapporttypes
-
 ├── Quit.py # Veilig afsluiten van invoer
-
 ├── Database/
-
 │ ├── Settings.py # Databasepad
-
 │ └── CreateDatabase.py # Databaseschema & testdata
-
 └── reports/ # Gegenereerde rapporten (automatisch aangemaakt)
 ```
 
@@ -80,20 +68,21 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-## Database aanmaken
-
+## Database & Settings
+Deze applicatie maakt gebruik van een lokale SQLite database.
+- De database locatie wordt ingesteld in Database/Settings.py.
+- De database wordt automatisch aangemaakt in het pad via het CreateDatabase.py script. **Best uit te voeren in de projectmap.**
 ```bash
-python CreateDatabase.py
+python ./Database/CreateDatabase.py
 ```
+- Indien de database locatie gewijzigd moet worden kan dit door DB_PATH in Settings.py te wijzigen.
 
 ## Applicatie starten
 
 ```bash
 python Main.py
 ```
-
 Je ziet nu een interactief menu.
-
 ```
 === To Do List Command Menu ===
 1. List all users
@@ -112,3 +101,7 @@ Je ziet nu een interactief menu.
 14. Generate filtered report
 0. Exit
 ```
+
+## Rapport Export
+- CSV export werkt direct.
+- Excel export vereist de openpyxl package.

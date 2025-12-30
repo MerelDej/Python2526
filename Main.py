@@ -2,7 +2,9 @@ from DbOperations import get_all_user_ids, get_all_task_ids, get_all_project_ids
 from Report import generate_full_report, generate_filtered_report
 from Enums import TaskStatus, ReportFileType
 from Quit import QuitToMenu, safe_input
+from datetime import datetime
 import sys
+import re
 
 def id_exists(get_function, id_value):
     return any(row[0] == id_value for row in get_function())
@@ -43,14 +45,18 @@ def command_four():
         if not name:
             print("Name cannot be empty.")
             continue
+        if not name.replace(" ", "").isalpha():
+            print("Name must contain only letters.")
+            continue
         break
     while True:
         email = safe_input("Enter an email: ").lower()
+        EMAIL_REGEX = r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
         if not email:
             print("Email cannot be empty.")
             continue
-        elif "@" not in email or "." not in email:
-            print("Invalid email. Email must contain '@' and '.'.")
+        elif not re.match(EMAIL_REGEX, email):
+            print("Invalid email format.")
             continue
         if not add_user(name, email):
             continue
@@ -93,9 +99,11 @@ def command_five():
             continue
         break
     while True:
-        due_date = safe_input("Enter a due_date: ")
-        if not due_date:
-            print("Due date cannot be empty.")
+        due_date = safe_input("Enter a due_date (YYYY-MM-DD):")
+        try:
+            datetime.strptime(due_date, "%Y-%m-%d")
+        except ValueError:
+            print("Invalid date. Use YYYY-MM-DD and a real calendar date.")
             continue
         break
     while True:
@@ -147,10 +155,11 @@ def command_seven():
         new_name=None
     while True:
         new_email = safe_input("Enter a new email or press Enter to not change it: ").lower()
+        EMAIL_REGEX = r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
         if new_email == "":
             new_email=None
-        elif "@" not in new_email or "." not in new_email:
-            print("Invalid email. Email must contain '@' and '.'.")
+        elif not re.match(EMAIL_REGEX, new_email):
+            print("Invalid email format.")
             continue
         elif not update_user(user_id, new_name, new_email):
             continue

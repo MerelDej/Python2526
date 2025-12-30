@@ -7,7 +7,7 @@ def create_database():
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY,
         name TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE
     );
@@ -15,7 +15,7 @@ def create_database():
     
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS projects (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY,
         user_id INTEGER NOT NULL,
         name TEXT NOT NULL,
         FOREIGN KEY (user_id) REFERENCES users(id)
@@ -25,7 +25,7 @@ def create_database():
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS tasks (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY,
         project_id INTEGER NOT NULL,
         user_id INTEGER NOT NULL,
         title TEXT NOT NULL,
