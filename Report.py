@@ -65,16 +65,18 @@ def generate_filtered_report(file_type, project_id=None, user_id=None, status=No
     df = pd.read_sql_query(query, conn, params=params)
     conn.close()
 
-    try:
-        os.mkdir("reports")
-        print("Directory 'reports' created successfully.")
-    except FileExistsError:
-        print("Directory 'reports' already exists.")
+    if file_type and not df.empty:
+        try:
+            os.mkdir("reports")
+            print("Directory 'reports' created successfully.")
+        except FileExistsError:
+            print("Directory 'reports' already exists.")
 
-    filename = f"reports/filtered_report_{now}"
-    if file_type.lower() == "csv":
-        df.to_csv(f"{filename}.csv", index=False)
-        print(f"Filtered report generated: {filename}.csv")
-    elif file_type.lower() == "excel":
-        df.to_excel(f"{filename}.xlsx", index=False)
-        print(f"Filtered report generated: {filename}.xlsx")
+        filename = f"reports/filtered_report_{now}"
+        if file_type.lower() == "csv":
+            df.to_csv(f"{filename}.csv", index=False)
+            print(f"Filtered report generated: {filename}.csv")
+        elif file_type.lower() == "excel":
+            df.to_excel(f"{filename}.xlsx", index=False)
+            print(f"Filtered report generated: {filename}.xlsx")
+    return df

@@ -328,6 +328,29 @@ def command_thirteen():
 def command_fourteen():
     print("Generating filtered report...\nOr press q to quit\n")
     while True:
+        project_id = get_numeric_id("Enter project ID or press Enter to skip: ")
+        if not id_exists(get_all_project_ids, project_id):
+            print("Error: Project with that ID does not exist.")
+            continue
+        break 
+    while True:
+        user_id = get_numeric_id("Enter user ID or press Enter to skip: ")
+        if not id_exists(get_all_user_ids, user_id):
+            print("Error: User with that ID does not exist.")
+            continue
+        break   
+    while True:
+        status_input = safe_input("Enter task status or press Enter to skip: ")
+        try:
+            if status_input == "":
+                status = None
+            else:
+                status = TaskStatus(status_input).value
+            break
+        except ValueError:
+            print("Invalid status. Use 'pending' or 'completed'.")
+            continue
+    while True:
         options = "/".join(t.value for t in ReportFileType)
         file_type_input = safe_input(f"Enter file type ({options}): ").lower()
         try:
@@ -336,21 +359,10 @@ def command_fourteen():
             print("Invalid file type. Choose 'csv' or 'excel'.")
             continue
         break
-    project_id = get_numeric_id("Enter project ID or press Enter to skip: ")
-    user_id = get_numeric_id("Enter user ID or press Enter to skip: ") 
-    while True:
-        status_input = safe_input("Enter task status or press Enter to skip: ")
-        try:
-            if status_input == "":
-                status = None
-                break
-            else:
-                status = TaskStatus(status_input).value
-                break
-        except ValueError:
-                print("Invalid status. Use 'pending' or 'completed'.")
-                continue
-    generate_filtered_report(file_type=file_type, project_id=project_id, user_id=user_id, status=status)
+    df = generate_filtered_report(file_type=file_type, project_id=project_id, user_id=user_id, status=status)
+    if df.empty:
+        print("No tasks found for the selected filters. Report not generated.")
+        return
 
 def exit_program():
     print("Exiting program.")
