@@ -112,15 +112,3 @@ Je ziet nu een interactief menu.
 14. Generate filtered report
 0. Exit
 ```
-
-upAdd project
-7. Update user
-8. Update task
-9. Update project
-10. Delete user
-11. Delete task
-12. Delete project
-13. Generate full report
-14. Generate filtered report
-0. Exit
-```
