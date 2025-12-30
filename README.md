@@ -1,5 +1,5 @@
 # To Do Lijst
-Een **Python-gebaseerde command-line To-Do applicatie** waarmee je **gebruikers, projecten en taken** kunt beheren via een SQLite-database.  
+Een **Python-gebaseerde command-line To-Do-Lijst applicatie** waarmee je **gebruikers, projecten en taken** kunt beheren via een SQLite-database.  
 Het systeem ondersteunt volledige **CRUD-functionaliteit**, taakstatussen en het **genereren van rapporten in CSV en Excel**.
 
 ## Technologieën
@@ -31,7 +31,7 @@ Het systeem ondersteunt volledige **CRUD-functionaliteit**, taakstatussen en het
     - Veilig annuleren (`q`) vanuit elk invoerveld
 
 ## Projectstructuur
-
+```
 .
 
 ├── Main.py # Startpunt van de CLI & menu
@@ -51,10 +51,7 @@ Het systeem ondersteunt volledige **CRUD-functionaliteit**, taakstatussen en het
 │ └── CreateDatabase.py # Databaseschema & testdata
 
 └── reports/ # Gegenereerde rapporten (automatisch aangemaakt)
-
-### User Management
-
-- CRUD 
+```
 
 ## Installatie en setup
 
