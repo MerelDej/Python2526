@@ -73,7 +73,7 @@ git clone https://github.com/MerelDej/Python2526.git
 cd Python2526
 python -m venv .venv
 # Windows cmd
-.venv/Scripts/activate.ps1
+.venv/Scripts/activate.bat
 # Windows Powershell
 .venv/Scripts/activate.ps1
 # installeer de packages
