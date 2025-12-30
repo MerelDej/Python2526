@@ -4,9 +4,8 @@ import os
 from Database.Settings import DB_PATH
 from datetime import datetime
 
-now = datetime.now().strftime("%Y%m%d%H%M%S")
-
 def generate_full_report(file_type):
+    now = datetime.now().strftime("%Y%m%d%H%M%S")
     conn = sqlite3.connect(DB_PATH)
     query = """
     SELECT 
@@ -37,6 +36,7 @@ def generate_full_report(file_type):
         print(f"Full report generated: {filename}.xlsx")
 
 def generate_filtered_report(file_type, project_id=None, user_id=None, status=None):
+    now = datetime.now().strftime("%Y%m%d%H%M%S")
     conn = sqlite3.connect(DB_PATH)
     query = """
     SELECT 

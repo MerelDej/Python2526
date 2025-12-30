@@ -30,8 +30,8 @@ def create_database():
         user_id INTEGER NOT NULL,
         title TEXT NOT NULL,
         status TEXT NOT NULL
-            CHECK (status IN ('pending', 'completed'))
-            DEFAULT 'pending',
+            DEFAULT 'pending'
+            CHECK (status IN ('pending', 'completed')),
         due_date TEXT,
         FOREIGN KEY (project_id) REFERENCES projects(id)
             ON DELETE CASCADE,

@@ -203,7 +203,7 @@ def command_eight():
                 print("User ID must be a number")
                 continue
             if not id_exists(get_all_user_ids, new_user):
-                print("Invalid project ID")
+                print("Invalid user ID")
                 continue
         break
     new_title = safe_input("Enter a new title or press Enter to not change it: ")
@@ -329,13 +329,13 @@ def command_fourteen():
     print("Generating filtered report...\nOr press q to quit\n")
     while True:
         project_id = get_numeric_id("Enter project ID or press Enter to skip: ")
-        if not id_exists(get_all_project_ids, project_id):
+        if project_id is not None and not id_exists(get_all_project_ids, project_id):
             print("Error: Project with that ID does not exist.")
             continue
         break 
     while True:
         user_id = get_numeric_id("Enter user ID or press Enter to skip: ")
-        if not id_exists(get_all_user_ids, user_id):
+        if user_id is not None and not id_exists(get_all_user_ids, user_id):
             print("Error: User with that ID does not exist.")
             continue
         break   
