@@ -6,3 +6,6 @@ Database/ToDoListDatabase.db
 
 #cache bestanden
 __pycache__/
+
+# reports
+reports/
