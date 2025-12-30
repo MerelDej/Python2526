@@ -51,7 +51,7 @@ cd Python2526
 python -m venv .venv
 source .venv/bin/activate
 # installeer de packages
-pip install -r requirements.txt
+pip install -r Requirements.txt
 ```
 
 ### Windows
@@ -65,7 +65,7 @@ python -m venv .venv
 # Windows Powershell
 .venv/Scripts/activate.ps1
 # installeer de packages
-pip install -r requirements.txt
+pip install -r Requirements.txt
 ```
 
 ## Database & Settings
